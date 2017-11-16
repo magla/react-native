@@ -25,6 +25,12 @@ class Main extends Component {
       searchResultsOpen: false
     }
 
+    // Dispatch actions
+    addItem(item) {
+      const {dispatch} = this.props
+      dispatch(actionCreators.addItem(item))
+    }
+
     removeItem = (index) => {
       const {dispatch} = this.props
       dispatch(actionCreators.removeItem(index))
@@ -78,7 +84,7 @@ class Main extends Component {
                 placeholder={'Enter a like'}
                 onSubmit={this.addItem}/>
 
-              <SearchResults searchItems={searchItems} />
+              <SearchResults searchItems={searchItems} onPress={this.addItem} />
 
               <List
                 items={items}
