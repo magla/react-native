@@ -3,10 +3,10 @@ import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 
 export default class Footer extends Component {
     render () {
-        const {check, type} = this.props
+        const {check, typePersonal} = this.props
 
         return (
-            <View>{check && <View style={styles.footer}><Text style={styles.type}>{type}</Text></View> }</View>
+            <View>{check && <View style={styles.footer}><Text style={styles.type}>{typePersonal}</Text></View> }</View>
         )
     }
 }

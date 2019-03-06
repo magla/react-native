@@ -3,7 +3,7 @@ import { TextInput, StyleSheet, Alert, View } from 'react-native'
 
 export default class Input extends Component {
   render() {
-    const {onChangeText, onSubmit, onFocus, placeholder, searchText} = this.props
+    const {onChangeText, onFocus, placeholder, searchText} = this.props
 
     return (
       <View>
@@ -12,8 +12,7 @@ export default class Input extends Component {
           style={styles.input}
           placeholder={placeholder}
           value={searchText}
-          onChangeText={onChangeText}
-          onSubmitEditing={onSubmit}/>
+          onChangeText={onChangeText}/>
       </View>
     )
   }

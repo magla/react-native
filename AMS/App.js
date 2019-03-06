@@ -5,7 +5,10 @@ import { Provider } from 'react-redux'
 import configureStore from './app/store/configureStore'
 import Main from './app/containers/Main'
 
-const initialState = {}
+const initialState = {
+  items: [],
+  typePersonal: ''
+}
 
 // Init store
 const store = configureStore(initialState)

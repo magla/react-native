@@ -2,28 +2,24 @@ import React, { Component } from 'react'
 import { ScrollView, View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
 export default class List extends Component {
-    renderItem = (item, key) => {
-        const {onRemoveItem} = this.props
-
-        return (
-          <View style={styles.item} key={key}>
-            <Text style={item.completed ? [styles.label, styles.completed] : styles.label}>{ item['name'] }</Text>
-            <View style={styles.rightSection}>
-              <TouchableOpacity style={styles.touchable} onPress={() => onRemoveItem(key)}>
-               <Text style={styles.remove}> &times; </Text>
-             </TouchableOpacity>
-            </View>
-          </View>
-        )
-    }
-
     render() {
-        const {items} = this.props
+        const {items, onRemoveItem} = this.props
 
         return (
-            <ScrollView>
-                {items && items.map(this.renderItem)}
-            </ScrollView>
+          <ScrollView>
+            {items && items.map((item, key) => {
+              return (
+                <View style={styles.item} key={key}>
+                  <Text style={item.completed ? [styles.label, styles.completed] : styles.label}>{ item['name'] }</Text>
+                  <View style={styles.rightSection}>
+                    <TouchableOpacity style={styles.touchable} onPress={() => onRemoveItem(key)}>
+                    <Text style={styles.remove}> &times; </Text>
+                  </TouchableOpacity>
+                  </View>
+                </View>
+              )
+            })}
+          </ScrollView>
         )
     }
 }

@@ -3,7 +3,7 @@ import { View, StyleSheet, Alert, ScrollView } from 'react-native'
 
 // State management
 import { connect } from 'react-redux'
-import { actionCreators } from '../reducers/item'
+import { actionCreators } from '../reducers/index'
 
 // Components
 import Title from '../components/Title'
@@ -12,11 +12,22 @@ import SearchResults from '../components/SearchResults'
 import List from '../components/List'
 import Footer from '../components/Footer'
 
+const mapDispatchToProps = (dispatch) => {
+  return { 
+    addItem: (item) => {
+      dispatch(actionCreators.addItem(item))
+      dispatch(actionCreators.updateType(item))
+    }
+  }
+}
+
 // Map state for Redux
-const mapStateToProps = (state) => ({
-  items: state.items,
-  type: state.type
-})
+const mapStateToProps = (state) => {
+  return ({ 
+    items: state.items,
+    typePersonal: state.typePersonal
+  })
+}
 
 // Main Component
 class Main extends Component {
@@ -26,13 +37,13 @@ class Main extends Component {
     }
 
     // Dispatch actions
-    addItem(item) {
-      const {dispatch} = this.props
-      dispatch(actionCreators.addItem(item))
+    addItem = (item) => {
+      this.props.addItem(item)
+      this.toggleSearch()
     }
 
     removeItem = (index) => {
-      const {dispatch} = this.props
+      // const {dispatch} = this.props
       dispatch(actionCreators.removeItem(index))
     }
 
@@ -59,12 +70,12 @@ class Main extends Component {
 
     toggleSearch = () => {
       const searchResultsOpen = this.state.searchResultsOpen
-      this.setState({searchResultsOpen: !searchResultsOpen})
+      this.setState({...this.state, searchResultsOpen: !searchResultsOpen})
     }
 
     // Render function
     render() {
-        const {items, type} = this.props
+        const {items, typePersonal} = this.props
         const {searchResultsOpen, searchText, searchItems} = this.state
 
         // Calculated value
@@ -78,13 +89,12 @@ class Main extends Component {
               <Search
                 onFocus={this.toggleSearch}
                 searchText={searchText}
-                expanded={searchResultsOpen}
                 searchItems={searchItems}
                 onChangeText={this.updateSearch}
                 placeholder={'Enter a like'}
-                onSubmit={this.addItem}/>
+              />
 
-              <SearchResults searchItems={searchItems} onPress={this.addItem} />
+              <SearchResults expanded={searchResultsOpen} searchItems={searchItems} onPress={this.addItem} />
 
               <List
                 items={items}
@@ -92,7 +102,7 @@ class Main extends Component {
             </ScrollView>
 
             <View>
-              <Footer type={type} check={check}/>
+              <Footer typePersonal={typePersonal} check={check}/>
             </View>
           </View>
         )
@@ -101,9 +111,9 @@ class Main extends Component {
 
 const styles = StyleSheet.create({
     contentContainer: {
-        flex: 1,
-        backgroundColor: '#F8E2B9'
+      flex: 1,
+      backgroundColor: '#F8E2B9'
     }
 })
 
-export default connect(mapStateToProps)(Main)
+export default connect(mapStateToProps, mapDispatchToProps)(Main)
